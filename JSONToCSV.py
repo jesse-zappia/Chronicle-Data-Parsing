@@ -1,7 +1,7 @@
 #Chronicle CSV parser
-#Version 0.1
+#Version 0.1.1
 #Written by Jesse Zappia
-#Last Update: 3/17/2021
+#Last Update: 3/18/2021
 
 import json
 import csv
@@ -41,12 +41,14 @@ with open(input_file, mode='r') as csv_file:
 
 json_target.close()
 
+print('Writing data to CSV file...')
+
 with open('temp.json') as json_file:
     data = json.load(json_file)
 
 log_record = data['data']
 
-csv_output = open(output_file, mode='w')
+csv_output = open(output_file, mode='w', newline='') # Newline requried for Windows compatability
 
 csv_writer = csv.writer(csv_output)
 
@@ -60,6 +62,9 @@ for log in log_record:
 
     csv_writer.writerow(log.values())
 
+print('Done!')
 csv_output.close()
 
+print('Cleaning up temp files...')
 os.remove("temp.json")
+print('Done!')
